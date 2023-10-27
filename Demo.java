@@ -1,69 +1,123 @@
-// 3) define "MyException" as a checked exception.
+// 2) Person class implements Serializable with
+// 	private String name
+// 	private int age
 
-// define a class "Demo" with 
-// 	public void show1(), public void show2() , public void show3() and main functions.
+// 		getters and setters
+// 		parameterized constructor
 
-// inside "show3()" accept a number and if it is greater than 10 raise "MyException" else display the number.
-// 	[ this method shouldn't handle the exception]
+// Student extends Person
+// 	private int rollno
+// 		getter and setters
+// 		parameterized constructor accepting name,age and rollno
+// 			pass name and age to the super constructor
 
-// main() function should call "show1()" , 
-// show1() function should call "show2()",
-// show2() function should call "show3()"
+// Demo class with main
+// 	create one object of Student, write it inside file and then read.
 
-// show2() should not handle the exception but show1() should handle.
-
-import java.util.Scanner;
-
-class MyException extends Exception
+import java.io.*;
+class Person implements Serializable
 {
-	public MyException(String mess)
+	private String name;
+	private int age;
+
+	Person(String name, int age)
 	{
-		super(mess);
+		this.name = name;
+		this.age = age;
+        System.out.println("inside parameterised constructor of Person");
 	}
-}
-public class Demo 
-{
-    // Demo()
-    // {}
-	public void show1()
+
+	public void setName(String name)
 	{
+		this.name = name;
+		System.out.println("name added by setter  = " + name);
+	}
+	public void setAge(int age)
+	{
+		this.age = age;
+		System.out.println("age added by setter = " + age);
+	}
+	public String getName()
+	{
+		System.out.println("getName called from Person");
+		return name;
+	}
+	public int getAge() 
+	{
+		System.out.println("getAge called from Person");
+		return age;
+	}
+    public String toString()
+    {
+        return "[ Person's name = " + name + ", and Person's age = " + age + "]";
+    }
+}
+// Student extends Person
+// 	private int rollno
+// 		getter and setters
+// 		parameterized constructor accepting name,age and rollno
+// 			pass name and age to the super constructor
+
+class Student extends Person implements Serializable
+{
+	private int rollno;
+
+	public Student(int rollno, String name, int age)
+	{
+		super(name, age);
+		this.rollno = rollno;
+		System.out.println("inside parameterised constructor of Student");
+	}
+	void setRollno(int rollno)
+	{
+		this.rollno = rollno;
+		System.out.println("adding rollno by setter");
+	}
+	int getRollno()
+	{
+		System.out.println("inside getter of Student");
+		return this.rollno;
+	}
+     public String toString()
+    {
+        return "[ student's rollno = " + rollno +",\t Student's name  = "+getName() +",\tStudent's Age"+getAge()+ "] " ;
+    }
+}
+// Demo class with main
+// 	create one object of Student, write it inside file and then read.
+
+
+public class Demo{
+	public static void main(String[] args)
+	{
+		Student student = new Student(021,"rahul",62);
+		String path ="C://Users//Satyakam//OneDrive//Dev//OneDrive//Documents//c-dac//nitin_sir//java//Day_13//day13_ccode//Abc_13_2.txt";
 		try
 		{
-			show2();
+			FileOutputStream out = new FileOutputStream(path);
+			ObjectOutputStream oos = new ObjectOutputStream(out);
+			oos.writeObject(student);
+			System.out.println("Student: before read " + student);
+			oos.close();
 		}
-		catch (MyException e)
+		catch(IOException e)
 		{
-			System.out.println(e);
-           
+			e.printStackTrace();
 		}
-		
-	}
-	public void show2()throws MyException
-	{
-		show3();
-	}
-	public void show3()throws MyException
-	{
-        System.out.println("Enter some values");
-        Scanner sc = new Scanner(System.in);
-        int num = sc.nextInt();
-        System.out.println("Entered the value is : " + num);
-        sc.close();
-		if(num>10)
+		try{
+			FileInputStream out2 = new FileInputStream(path);
+			ObjectInputStream oss2 = new ObjectInputStream(out2);
+			Student stu = (Student)oss2.readObject();
+			System.out.println("Student: after read " + stu);
+			oss2.close();
+		}
+		catch (IOException e)
 		{
-			throw new MyException("Greater value exception");
+			e.printStackTrace();
 		}
-		else 
+		catch(ClassNotFoundException ce)
 		{
-			System.out.println("the number is " + num);
+			ce.printStackTrace();
 		}
-        
-	}
-
-	public static void main(String args[])
-	{
-        Demo d = new Demo();
-		d.show1();
-
 	}
 }
