@@ -1,45 +1,33 @@
-// Revision_2)
-// Define a class Sample with member variable “char ch” and a parameterized constructor. 
-// Create some instances(at least 2) of this class by passing any alphabet.  Now achieve following tasks:
+package Default_static_method;  //**this will give error so comment it out */
 
-// a) when you print the reference it should be display the character which was passed during instantiation.
-// b) if two instances have same character or an alphabet, their "equals()" should return true and obviously "hashCode()" 
-// also should be same.
+// 2) define interface "Third" with "default void disp1()" and "static void disp2()" methods.
+// derive a class "Sub" from "Third" ( do not override "disp1")
+// inside main function invoke "disp1" and "disp2" methods.
 
-class Sample{
-   private char ch ;
-
-   Sample(char ch)
-   {
-    this.ch =ch;
-   }
-   @Override
-   public String toString()
-   {
-        return "[" + ch + "]";
-   }
-   public int hashCode()
-   {
-    return Character.hashCode(ch);
-   }
-   public boolean equals(Sample obj)
-   {
-    return this.ch == obj.ch;
-   }
+interface Third{
+    default void disp1()
+    {
+        System.out.println("interface third and method disp1");
+    }
+    default void disp2()
+    {
+        System.out.println("interface third and method disp2");
+    }
 }
-public class Demo2{
+class Sub implements Third
+{
+    public void disp2()
+    {
+        System.out.println("class sub and method disp2");
+    }
+}
+
+public class Demo2
+{
     public static void main(String[] args)
     {
-        Sample sample1 = new Sample('Z');
-        Sample sample2 = new Sample('Y');
-
-        System.out.println(sample1);
-        System.out.println(sample2);
-
-        System.out.println(sample1.hashCode());
-        System.out.println(sample2.hashCode());
-
-        System.out.println(sample1.equals(sample2));
-
+        Sub refsub = new  Sub();
+        refsub.disp1();
+        refsub.disp2();
     }
 }

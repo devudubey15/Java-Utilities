@@ -1,75 +1,33 @@
-//  Revision_1) 
+package Default_static_method; //**this will give error so comment it out */
 
-//  Define a class “MyClass”. Define a class “Everything” and define a member function 
-// with variable no. of argument inside it. Define  a class Demo1  and define main function in it. 
-// From main function , call the function of class Everything and make sure you can pass any arguments 
-// , it will take and display. It should even take instance of “MyClass” and display. 
+// package Default_static_method;
+// 1) define interface "First" with "default void fun()" and interface "Second" with "default void fun()". 
+// Now derive a class Child from both these interfaces. 
+// Inside main function instantiate Child class instance and invoke "fun" method.
 
-class MyClass
-{
-    private int myNumber;
-    private String myString;
-
-    public MyClass(int myNumber, String myString)
+interface First{
+    default void fun()
     {
-        this.myNumber = myNumber;
-        this.myString = myString;
-    }
-    void getItems()
-    {
-        System.out.println("Mynumber "+myNumber+" mystring "+myString);
-    }
-    int getNumber()
-    {
-        return this.myNumber;
-    }
-    String getString()
-    {
-        return this.myString;
+        System.out.println("inside the default function of interface First");
     }
 }
-class Everything 
-{
-    private int NumberEvery;
-    private String StringEvery;
-
-    MyClass ref =null;
-
-    void fun1(Object ...obj)
+interface Second{
+    default void fun()
     {
-            for(int i =0; i<obj.length; i++)
-            {
-                if ((obj[i]) instanceof Integer)
-                {
-                    this.NumberEvery = (int) obj[i]; 
-                    System.out.println(" NumberEvery "+this.NumberEvery);
-                }
-                if ((obj[i]) instanceof String)
-                {
-                    this.StringEvery = (obj[i]).toString();
-                    System.out.println(" StringEvery "+this.StringEvery);
-                }
-                if ((obj[i]) instanceof MyClass)
-                {
-                    ref = ((MyClass) obj[i]);
-                }
-            }   
+        System.out.println("inside the default function of interface Second");
     }
-    MyClass getMyClass()
-    {
-        return ref;
-    }
-
 }
-class Demo1
+class Child implements First, Second
 {
-    public static void main (String args[]){
-
-        Everything everything = new Everything();
-         everything.fun1(678,"hello",new MyClass(89,"devu"));
-        System.out.println(everything.getMyClass().getNumber());
-        System.out.println(everything.getMyClass().getString());
-
-
+    public void fun()
+    {
+        System.out.println("inside the default function of interface Child");
+    }
+}
+public class Demo1 {
+    public static void main(String args[])
+    {
+        Child child = new Child();
+        child.fun(); 
     }
 }

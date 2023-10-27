@@ -1,52 +1,49 @@
+package Default_static_method;  //**this will give error so comment it out */
 
-// Revision_3) 
-// create 4 classes A,B,C,D with member functions Afun(),Bfun(),Cfun() and Dfun() respectively.
-// now define "Demo" class with main function. Inside main function create array of Object class 
-// which will store instances of above mentioned classes. Traverse through this array and call "Cfun()" 
-// of class C only.
 
-class A
+
+// 3)define interface "Fourth" with "default void disp3()" method.
+// define a class "Base1" with "public void disp3()" method,
+// now derive a class Sub1 from "Base1" and "Fourth". Sub1 class should have only "public void myfun()" method.
+// inside main create an object of "Sub1" and invoke "disp3".
+// once you get the result, also try to invoke "disp3" of "Fourth"
+
+interface Fourth{
+    default void disp3()
+    {
+        System.out.println("inside interface4 and inside the method disp3");
+    }
+}
+class Base1
 {
-    void Afun(){
-                System.out.println("Afun");
-    }
-}
-class B{
-    void Bfun()
+    public void disp3()
     {
-            System.out.println("Bfun");
+        System.out.println("class Base1 and inside the method disp3");
     }
 }
-class C{
-    void Cfun()
-    {
-        System.out.println("Cfun");
-    }
-}
-class D{
-        void Dfun()
-        {
-                System.out.println("Dfun");
-        }
-}
-public class Demo3
+class Sub1 extends Base1 implements Fourth
 {
-    public static void main (String args[])
+
+    public void fun(){
+    System.out.println("x");
+    }
+    public void disp3()
     {
-        Object arrObject[] = new Object[4];
-        arrObject[0] = new A();
-        arrObject[1] = new B();
-        arrObject[2] = new C();
-        arrObject[3] = new D();
-
-        for( int i =0; i < arrObject.length; i++)
-        {
-            if( arrObject[i] instanceof C )
-            {
-                C ref =(C)arrObject[i];
-                ref.Cfun();
-            }
-        }
-
+        System.out.println("class Sub1 and inside the method disp3");
+        Fourth.super.disp3(); // it used when we are calling non-static method(default method) of interface
+                             //  from implementation class 
+    // **** Fourth.disp();  // it used when we are calling static method of interface from implementation class
     }
 }
+public class Demo3 
+{
+    public static void main(String args[])
+    {
+        Sub1 obj =new Sub1();
+        obj.disp3();
+        Fourth test = new Sub1();
+        test.disp3();
+    }
+}
+
+// No enclosing instance of the type Fourth is accessible in scope

@@ -1,67 +1,38 @@
-// create a parent class "Artist" with a member function "void perform()".
-// now derive following child classes from "Artist"
-// 	Actor,Singer and Musician and override "perform" in these classes to write the specific task.
-// inside "Actor" class define one more method
-// 	void changeGateUp()
-// 	{
-// 		S.o.p("as per the role demands");
-// 	}
+package Default_static_method;  //**this will give error so comment it out */
 
-// now create a Demo class with main function.
-// inside main function create array of "Artist" with size 3.
-// store instances of the above child classes in it.
-// Now traverse through the array and invoke "perform" of each child class.
-//  In addition to this wherever "Actor" object is there inside the array , also perform "changeGateUp()" method.
-class Artist
-{
-	void Perform()
-	{
-		System.out.println("Artist");
-	}
-}
-class Actor extends Artist
-{
-	void Perform()
-	{
-		System.out.println("Actor");
-	}
-	void changeGateUp()
-	{
-		System.out.println("as per the role demands");
-	}
-}
-class Singer extends Artist
-{
-	void Perform()
-	{
-		System.out.println("Singer");
-	}
-}
-class Musician extends Artist
-{
-	void Perform()
-	{
-		System.out.println("Music");
-	}
-}
-public class Demo4
-{
-	public static void main(String[] args)
-	{
-		Artist artist[] = new Artist[3];
-		artist[0] = new Actor();
-		artist[1] = new Singer();
-		artist[2] = new Musician(); 
+// 4) define interface "Base1" with "default void fun1()".
+// derive an interface "Sub1" from "Base1" with "default void fun2()"
+// derive a class "Sub2" from "Sub1". It should have only "public void fun3()" method.
 
-		for(int i=0; i<artist.length;i++)
-		{
-			artist[i].Perform();
+// inside main function, create an object of "Sub2" and make sure when u invoke "fun3",
+//  it should call "Sub1's fun2" which should call "Base1's fun1" method.
 
-			if(artist[i] instanceof Actor)
-			{
-				Actor ref = (Actor) artist[i];
-				ref.changeGateUp();
-			}
-		}
-	}
-}
+ interface Base1 
+ { 
+    default void fun1()
+    {
+        System.out.println("inside BAse1 interface");
+    }
+ }
+ interface Sub1 extends Base1
+ {
+    default void fun2()
+    {   Base1.super.fun1(); 
+        System.out.println("inside BAse2 interface");
+    }
+ }
+ class Sub2 implements Sub1{
+    public void fun3()
+    {
+        Sub1.super.fun2();
+        System.out.println("inside Sub2 Class");
+    }
+ }
+
+ public class Demo4{
+    public static void main(String args[])
+    {
+        Sub2 obj = new Sub2();
+        obj.fun3();
+    }
+ }
