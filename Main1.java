@@ -1,29 +1,45 @@
-//  1. Create a multi-level inheritance , instantiate the child class and observe constructor invocation.
-//  Also show, if needed how will u invoke parent class constructor from child class ?
+public interface MouseHandler {
+    void mouseClicked();
+    void mousePressed();
+    void mouseReleased();
+}
 
+public interface WindowHandler {
+    void windowClosing();
+    void windowClosed();
+}
 
- class Base {
-    Base() {
-        System.out.println("Constructor of Base class");
+public class WindowGUIApp implements MouseHandler, WindowHandler {
+    public void mouseClicked() {
+        System.out.println("Mouse clicked");
+    }
+
+    public void mousePressed() {
+        System.out.println("Mouse pressed");
+    }
+
+    public void mouseReleased() {
+        System.out.println("Mouse released");
+    }
+
+    public void windowClosing() {
+        System.out.println("Window closing");
+    }
+
+    public void windowClosed() {
+        System.out.println("Window closed");
     }
 }
 
-class Derived extends Base {
-    Derived() {
-        super(); 
-        System.out.println("Constructor of Derived class");
-    }
-}
-
-class Child extends Derived {
-    Child() {
-        super(); 
-        System.out.println("Constructor of Child class");
-    }
-}
-
-public class Main1 {
+public class GUIDemo {
     public static void main(String[] args) {
-        Child child = new Child();
+        WindowGUIApp app = new WindowGUIApp();
+
+        // Invoke methods from both interfaces
+        app.mouseClicked();
+        app.mousePressed();
+        app.mouseReleased();
+        app.windowClosing();
+        app.windowClosed();
     }
 }
